@@ -9,7 +9,7 @@ public class ControllerTests
 
     [Theory]
     [AutoData]
-    public void HappyPath(string state, (string, bool, Uri) knownState, string response)
+    public void HappyPath(string state, (string, bool, Uri) knownState)
     {
         var (expectedCode, _, _) = knownState;
         var code = expectedCode;
@@ -25,7 +25,7 @@ public class ControllerTests
 
     [Theory]
     [AutoData]
-    public void Failure(string state, (string, bool, Uri) knownState, string response)
+    public void Failure(string state, (string, bool, Uri) knownState)
     {
         var (expectedCode, _, _) = knownState;
         var code = expectedCode + "1"; // Any extra string will do
@@ -41,7 +41,7 @@ public class ControllerTests
 
     [Theory]
     [AutoData]
-    public void Error(string state, string code, string response)
+    public void Error(string state, string code)
     {
         _repository.Add(state, default);
         var renderer = new Renderer();
