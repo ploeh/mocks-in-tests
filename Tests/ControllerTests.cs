@@ -44,16 +44,13 @@ public class ControllerTests
 
     [Theory]
     [AutoData]
-    public void Error(string state, string code, (string, bool, Uri) knownState, Exception e, string response)
+    public void Error(string state, string code, string response)
     {
-        _repository.Add(state, knownState);
-        _stateValidator
-            .Setup(validator => validator.Validate(code, knownState))
-            .Throws(e);
+        _repository.Add(state, default);
         _renderer
-            .Setup(renderer => renderer.Error(knownState, e))
+            .Setup(renderer => renderer.Error(default, It.IsAny<Exception>()))
             .Returns(response);
-        var sut = new Controller(_repository, _stateValidator.Object, _renderer.Object);
+        var sut = new Controller(_repository, new StateValidator(), _renderer.Object);
 
         sut
             .Complete(state, code)
