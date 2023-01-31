@@ -17,7 +17,7 @@ public class ControllerTests
         _renderer
             .Setup(renderer => renderer.Success(knownState))
             .Returns(response);
-        var sut = new Controller(_repository, new StateValidator(), _renderer.Object);
+        var sut = new Controller(_repository, _renderer.Object);
 
         sut
             .Complete(state, code)
@@ -34,7 +34,7 @@ public class ControllerTests
         _renderer
             .Setup(renderer => renderer.Failure(knownState))
             .Returns(response);
-        var sut = new Controller(_repository, new StateValidator(), _renderer.Object);
+        var sut = new Controller(_repository, _renderer.Object);
 
         sut
             .Complete(state, code)
@@ -49,7 +49,7 @@ public class ControllerTests
         _renderer
             .Setup(renderer => renderer.Error(default, It.IsAny<Exception>()))
             .Returns(response);
-        var sut = new Controller(_repository, new StateValidator(), _renderer.Object);
+        var sut = new Controller(_repository, _renderer.Object);
 
         sut
             .Complete(state, code)
