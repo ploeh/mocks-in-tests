@@ -8,18 +8,6 @@ public class ControllerTests
     private readonly Mock<IStateValidator> _stateValidator = new();
     private readonly Mock<IRenderer> _renderer = new();
 
-    private readonly Controller _target;
-
-    public ControllerTests()
-    {
-        _target = CreateController();
-    }
-
-    private Controller CreateController()
-    {
-        return new Controller(_repository, _stateValidator.Object, _renderer.Object);
-    }
-
     [Theory]
     [AutoData]
     public void HappyPath(string state, (string, bool, Uri) knownState, string response)
@@ -65,7 +53,7 @@ public class ControllerTests
         _renderer
             .Setup(renderer => renderer.Error(knownState, e))
             .Returns(response);
-        var sut = CreateController();
+        var sut = new Controller(_repository, _stateValidator.Object, _renderer.Object);
 
         sut
             .Complete(state, code)
