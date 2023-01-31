@@ -20,20 +20,28 @@ public class ControllerTests
             .Should().Be(expected);
     }
 
-    [Theory]
-    [AutoData]
-    public void Failure(string state, (string, bool, Uri) knownState)
+    [Fact]
+    public void Failure()
     {
-        var (expectedCode, _, _) = knownState;
-        var code = expectedCode + "1"; // Any extra string will do
-        var repository = new RepositoryStub();
-        repository.Add(state, knownState);
-        var sut = new Controller(repository);
+        (from state in Gen.String
+         from code in Gen.String
+         from expectedCode in Gen.String.Where(s => s != code)
+         from isMobile in Gen.Bool
+         let urls = new[] { "https://example.com", "https://example.org" }
+         from redirect in Gen.OneOfConst(urls).Select(s => new Uri(s))
+         select (state, code, (expectedCode, isMobile, redirect)))
+        .Sample((state, code, knownState) =>
+        {
+            var (expectedCode, _, _) = knownState;
+            var repository = new RepositoryStub();
+            repository.Add(state, knownState);
+            var sut = new Controller(repository);
 
-        var expected = Renderer.Failure(knownState);
-        sut
-            .Complete(state, code)
-            .Should().Be(expected);
+            var expected = Renderer.Failure(knownState);
+            sut
+                .Complete(state, code)
+                .Should().Be(expected);
+        });
     }
 
     [Fact]
