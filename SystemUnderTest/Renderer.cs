@@ -1,12 +1,5 @@
 ﻿namespace SystemUnderTest;
 
-public interface IRenderer
-{
-    string Success((string expectedCode, bool isMobile, Uri redirect) knownState);
-    string Failure((string expectedCode, bool isMobile, Uri redirect) knownState);
-    string Error((string expectedCode, bool isMobile, Uri redirect) knownState, Exception e);
-}
-
 public class Renderer
 {
     public string Success((string expectedCode, bool isMobile, Uri redirect) knownState)
