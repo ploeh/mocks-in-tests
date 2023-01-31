@@ -43,7 +43,6 @@ public class ControllerTests
     public void Error(string state, string code)
     {
         _repository.Add(state, default);
-        var renderer = new Renderer();
         var sut = new Controller(_repository);
 
         sut
