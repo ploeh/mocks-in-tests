@@ -14,7 +14,7 @@ public class Controller
     public Controller(IRepository repository, IStateValidator stateValidator, IRenderer renderer)
     {
         _repository = repository;
-        _stateValidator = stateValidator;
+        _stateValidator = new StateValidator();
         _renderer = renderer;
     }
 
