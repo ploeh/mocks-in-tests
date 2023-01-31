@@ -2,21 +2,15 @@
 
 public class ControllerTests
 {
-    private readonly RepositoryStub _repository;
-
-    public ControllerTests()
-    {
-        _repository = new RepositoryStub();
-    }
-
     [Theory]
     [AutoData]
     public void HappyPath(string state, (string, bool, Uri) knownState)
     {
         var (expectedCode, _, _) = knownState;
         var code = expectedCode;
-        _repository.Add(state, knownState);
-        var sut = new Controller(_repository);
+        var repository = new RepositoryStub();
+        repository.Add(state, knownState);
+        var sut = new Controller(repository);
 
         var expected = Renderer.Success(knownState);
         sut
@@ -30,8 +24,9 @@ public class ControllerTests
     {
         var (expectedCode, _, _) = knownState;
         var code = expectedCode + "1"; // Any extra string will do
-        _repository.Add(state, knownState);
-        var sut = new Controller(_repository);
+        var repository = new RepositoryStub();
+        repository.Add(state, knownState);
+        var sut = new Controller(repository);
 
         var expected = Renderer.Failure(knownState);
         sut
@@ -43,8 +38,9 @@ public class ControllerTests
     [AutoData]
     public void Error(string state, string code)
     {
-        _repository.Add(state, default);
-        var sut = new Controller(_repository);
+        var repository = new RepositoryStub();
+        repository.Add(state, default);
+        var sut = new Controller(repository);
 
         sut
             .Complete(state, code)
