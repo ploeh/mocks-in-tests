@@ -9,7 +9,7 @@ public class Controller
 {
     private readonly IRepository _repository;
     private readonly StateValidator _stateValidator;
-    private readonly IRenderer _renderer;
+    private readonly Renderer _renderer;
 
     public Controller(IRepository repository)
     {
