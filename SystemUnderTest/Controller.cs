@@ -11,7 +11,7 @@ public class Controller
     private readonly StateValidator _stateValidator;
     private readonly IRenderer _renderer;
 
-    public Controller(IRepository repository, IRenderer renderer)
+    public Controller(IRepository repository)
     {
         _repository = repository;
         _stateValidator = new StateValidator();
