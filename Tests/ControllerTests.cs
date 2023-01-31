@@ -39,8 +39,10 @@ public class ControllerTests
 
     [Theory]
     [AutoData]
-    public void Failure(string state, string code, (string, bool, Uri) knownState, string response)
+    public void Failure(string state, (string, bool, Uri) knownState, string response)
     {
+        var (expectedCode, _, _) = knownState;
+        var code = expectedCode + "1"; // Any extra string will do
         _repository.Add(state, knownState);
         _stateValidator
             .Setup(validator => validator.Validate(code, knownState))
