@@ -44,13 +44,11 @@ public class ControllerTests
     public void Error(string state, string code, string response)
     {
         _repository.Add(state, default);
-        _renderer
-            .Setup(renderer => renderer.Error(default, It.IsAny<Exception>()))
-            .Returns(response);
-        var sut = new Controller(_repository, _renderer.Object);
+        var renderer = new Renderer();
+        var sut = new Controller(_repository, renderer);
 
         sut
             .Complete(state, code)
-            .Should().Be(response);
+            .Should().Be("500");
     }
 }
