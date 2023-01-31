@@ -3,12 +3,10 @@
 public class ControllerTests
 {
     private readonly RepositoryStub _repository;
-    private readonly Controller _sut;
 
     public ControllerTests()
     {
         _repository = new RepositoryStub();
-        _sut = new Controller(_repository);
     }
 
     [Theory]
@@ -18,9 +16,10 @@ public class ControllerTests
         var (expectedCode, _, _) = knownState;
         var code = expectedCode;
         _repository.Add(state, knownState);
+        var sut = new Controller(_repository);
 
         var expected = Renderer.Success(knownState);
-        _sut
+        sut
             .Complete(state, code)
             .Should().Be(expected);
     }
@@ -32,9 +31,10 @@ public class ControllerTests
         var (expectedCode, _, _) = knownState;
         var code = expectedCode + "1"; // Any extra string will do
         _repository.Add(state, knownState);
+        var sut = new Controller(_repository);
 
         var expected = Renderer.Failure(knownState);
-        _sut
+        sut
             .Complete(state, code)
             .Should().Be(expected);
     }
@@ -44,8 +44,9 @@ public class ControllerTests
     public void Error(string state, string code)
     {
         _repository.Add(state, default);
+        var sut = new Controller(_repository);
 
-        _sut
+        sut
             .Complete(state, code)
             .Should().Be("500");
     }
