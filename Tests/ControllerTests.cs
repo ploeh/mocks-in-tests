@@ -22,8 +22,10 @@ public class ControllerTests
 
     [Theory]
     [AutoData]
-    public void HappyPath(string state, string code, (string, bool, Uri) knownState, string response)
+    public void HappyPath(string state, (string, bool, Uri) knownState, string response)
     {
+        var (expectedCode, _, _) = knownState;
+        var code = expectedCode;
         _repository.Add(state, knownState);
         _stateValidator
             .Setup(validator => validator.Validate(code, knownState))
