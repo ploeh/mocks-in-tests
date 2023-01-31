@@ -27,13 +27,10 @@ public class ControllerTests
         var (expectedCode, _, _) = knownState;
         var code = expectedCode;
         _repository.Add(state, knownState);
-        _stateValidator
-            .Setup(validator => validator.Validate(code, knownState))
-            .Returns(true);
         _renderer
             .Setup(renderer => renderer.Success(knownState))
             .Returns(response);
-        var sut = new Controller(_repository, _stateValidator.Object, _renderer.Object);
+        var sut = new Controller(_repository, new StateValidator(), _renderer.Object);
 
         sut
             .Complete(state, code)
