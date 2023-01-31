@@ -10,7 +10,7 @@ public class Renderer
             return "302 Location: " + knownState.redirect;
     }
 
-    public string Failure((string expectedCode, bool isMobile, Uri redirect) knownState)
+    public static string Failure((string expectedCode, bool isMobile, Uri redirect) knownState)
     {
         if (knownState.isMobile)
             return "{\"success\": false, \"redirect\": \"login\"}";

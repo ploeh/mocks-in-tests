@@ -26,7 +26,7 @@ public class Controller
             if (_stateValidator.Validate(code, knownState))
                 return Renderer.Success(knownState);
             else
-                return _renderer.Failure(knownState);
+                return Renderer.Failure(knownState);
         }
         catch (Exception e)
         {

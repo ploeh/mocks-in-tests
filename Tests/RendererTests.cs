@@ -21,14 +21,14 @@ public class RendererTests
     [Theory]
     [AutoData]
     public void Failure_Regular(string expectedCode, Uri redirect)
-        => _renderer
+        => Renderer
             .Failure((expectedCode, false, redirect))
             .Should().Be("302 Location: login");
 
     [Theory]
     [AutoData]
     public void Failure_Mobile(string expectedCode, Uri redirect)
-        => _renderer
+        => Renderer
             .Failure((expectedCode, true, redirect))
             .Should().Be("{\"success\": false, \"redirect\": \"login\"}");
 
