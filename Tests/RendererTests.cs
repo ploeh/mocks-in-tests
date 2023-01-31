@@ -7,14 +7,14 @@ public class RendererTests
     [Theory]
     [AutoData]
     public void Success_Regular(string expectedCode, Uri redirect)
-        => _renderer
+        => Renderer
             .Success((expectedCode, false, redirect))
             .Should().Be("302 Location: " + redirect);
 
     [Theory]
     [AutoData]
     public void Success_Mobile(string expectedCode, Uri redirect)
-        => _renderer
+        => Renderer
             .Success((expectedCode, true, redirect))
             .Should().Be("{\"success\": true, \"redirect\": \"" + redirect + "\"}");
 

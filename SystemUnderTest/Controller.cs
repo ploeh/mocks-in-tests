@@ -24,7 +24,7 @@ public class Controller
         try
         {
             if (_stateValidator.Validate(code, knownState))
-                return _renderer.Success(knownState);
+                return Renderer.Success(knownState);
             else
                 return _renderer.Failure(knownState);
         }

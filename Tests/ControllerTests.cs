@@ -15,7 +15,7 @@ public class ControllerTests
         _repository.Add(state, knownState);
         var sut = new Controller(_repository);
 
-        var expected = new Renderer().Success(knownState);
+        var expected = Renderer.Success(knownState);
         sut
             .Complete(state, code)
             .Should().Be(expected);

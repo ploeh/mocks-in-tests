@@ -2,7 +2,7 @@
 
 public class Renderer
 {
-    public string Success((string expectedCode, bool isMobile, Uri redirect) knownState)
+    public static string Success((string expectedCode, bool isMobile, Uri redirect) knownState)
     {
         if (knownState.isMobile)
             return "{\"success\": true, \"redirect\": \"" + knownState.redirect + "\"}";
