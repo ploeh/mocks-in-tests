@@ -8,12 +8,10 @@ public interface IRepository
 public class Controller
 {
     private readonly IRepository _repository;
-    private readonly StateValidator _stateValidator;
 
     public Controller(IRepository repository)
     {
         _repository = repository;
-        _stateValidator = new StateValidator();
     }
 
     public string Complete(string state, string code)

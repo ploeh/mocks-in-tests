@@ -1,9 +1,9 @@
+using FluentAssertions;
+
 namespace Tests;
 
 public class StateValidatorTests
 {
-    private readonly StateValidator _target = new();
-
     [Theory]
     [AutoData]
     public void WhenCodesMatch_IsValid(string code, bool isMobile, Uri redirect)
@@ -18,7 +18,7 @@ public class StateValidatorTests
 
     [Theory, AutoData]
     public void WhenKnownStateIsDefault_Throws(string code)
-        => _target
-            .Invoking(target => StateValidator.Validate(code, default))
+        => FluentActions
+            .Invoking(() => StateValidator.Validate(code, default))
             .Should().Throw<ArgumentNullException>();
 }
