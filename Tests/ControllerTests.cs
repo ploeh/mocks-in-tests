@@ -30,14 +30,13 @@ public class ControllerTests
         var (expectedCode, _, _) = knownState;
         var code = expectedCode + "1"; // Any extra string will do
         _repository.Add(state, knownState);
-        _renderer
-            .Setup(renderer => renderer.Failure(knownState))
-            .Returns(response);
-        var sut = new Controller(_repository, _renderer.Object);
+        var renderer = new Renderer();
+        var sut = new Controller(_repository, renderer);
 
+        var expected = renderer.Failure(knownState);
         sut
             .Complete(state, code)
-            .Should().Be(response);
+            .Should().Be(expected);
     }
 
     [Theory]
