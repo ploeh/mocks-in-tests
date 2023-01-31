@@ -5,7 +5,6 @@ namespace Tests;
 public class ControllerTests
 {
     private readonly RepositoryStub _repository = new RepositoryStub();
-    private readonly Mock<IStateValidator> _stateValidator = new();
     private readonly Mock<IRenderer> _renderer = new();
 
     [Theory]
