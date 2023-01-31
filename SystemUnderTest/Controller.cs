@@ -8,7 +8,7 @@ public interface IRepository
 public class Controller
 {
     private readonly IRepository _repository;
-    private readonly IStateValidator _stateValidator;
+    private readonly StateValidator _stateValidator;
     private readonly IRenderer _renderer;
 
     public Controller(IRepository repository, IRenderer renderer)
