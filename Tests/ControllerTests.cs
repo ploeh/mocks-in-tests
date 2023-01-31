@@ -1,10 +1,18 @@
 ﻿using Moq;
+using SystemUnderTest;
 
 namespace Tests;
 
 public class ControllerTests
 {
-    private readonly RepositoryStub _repository = new RepositoryStub();
+    private readonly RepositoryStub _repository;
+    private readonly Controller _sut;
+
+    public ControllerTests()
+    {
+        _repository = new RepositoryStub();
+        _sut = new Controller(_repository);
+    }
 
     [Theory]
     [AutoData]
@@ -13,10 +21,9 @@ public class ControllerTests
         var (expectedCode, _, _) = knownState;
         var code = expectedCode;
         _repository.Add(state, knownState);
-        var sut = new Controller(_repository);
 
         var expected = Renderer.Success(knownState);
-        sut
+        _sut
             .Complete(state, code)
             .Should().Be(expected);
     }
@@ -28,10 +35,9 @@ public class ControllerTests
         var (expectedCode, _, _) = knownState;
         var code = expectedCode + "1"; // Any extra string will do
         _repository.Add(state, knownState);
-        var sut = new Controller(_repository);
 
         var expected = Renderer.Failure(knownState);
-        sut
+        _sut
             .Complete(state, code)
             .Should().Be(expected);
     }
@@ -41,9 +47,8 @@ public class ControllerTests
     public void Error(string state, string code)
     {
         _repository.Add(state, default);
-        var sut = new Controller(_repository);
 
-        sut
+        _sut
             .Complete(state, code)
             .Should().Be("500");
     }
