@@ -7,7 +7,7 @@ public interface IRenderer
     string Error((string expectedCode, bool isMobile, Uri redirect) knownState, Exception e);
 }
 
-public class Renderer : IRenderer
+public class Renderer
 {
     public string Success((string expectedCode, bool isMobile, Uri redirect) knownState)
     {
