@@ -12,7 +12,12 @@ public class ControllerTests
 
     public ControllerTests()
     {
-        _target = new Controller(_repository, _stateValidator.Object, _renderer.Object);
+        _target = CreateController();
+    }
+
+    private Controller CreateController()
+    {
+        return new Controller(_repository, _stateValidator.Object, _renderer.Object);
     }
 
     [Theory]
