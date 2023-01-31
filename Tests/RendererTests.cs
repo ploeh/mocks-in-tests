@@ -2,8 +2,6 @@
 
 public class RendererTests
 {
-    private readonly Renderer _renderer = new();
-
     [Theory]
     [AutoData]
     public void Success_Regular(string expectedCode, Uri redirect)

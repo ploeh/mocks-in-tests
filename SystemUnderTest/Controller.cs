@@ -9,13 +9,11 @@ public class Controller
 {
     private readonly IRepository _repository;
     private readonly StateValidator _stateValidator;
-    private readonly Renderer _renderer;
 
     public Controller(IRepository repository)
     {
         _repository = repository;
         _stateValidator = new StateValidator();
-        _renderer = new Renderer();
     }
 
     public string Complete(string state, string code)

@@ -1,6 +1,6 @@
 ﻿namespace SystemUnderTest;
 
-public class Renderer
+public static class Renderer
 {
     public static string Success((string expectedCode, bool isMobile, Uri redirect) knownState)
     {
