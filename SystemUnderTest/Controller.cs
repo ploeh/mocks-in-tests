@@ -21,7 +21,7 @@ public class Controller
         var knownState = _repository.GetState(state);
         try
         {
-            if (_stateValidator.Validate(code, knownState))
+            if (StateValidator.Validate(code, knownState))
                 return Renderer.Success(knownState);
             else
                 return Renderer.Failure(knownState);
