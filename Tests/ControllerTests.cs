@@ -13,10 +13,9 @@ public class ControllerTests
         var (expectedCode, _, _) = knownState;
         var code = expectedCode;
         _repository.Add(state, knownState);
-        var renderer = new Renderer();
         var sut = new Controller(_repository);
 
-        var expected = renderer.Success(knownState);
+        var expected = new Renderer().Success(knownState);
         sut
             .Complete(state, code)
             .Should().Be(expected);
@@ -29,10 +28,9 @@ public class ControllerTests
         var (expectedCode, _, _) = knownState;
         var code = expectedCode + "1"; // Any extra string will do
         _repository.Add(state, knownState);
-        var renderer = new Renderer();
         var sut = new Controller(_repository);
 
-        var expected = renderer.Failure(knownState);
+        var expected = new Renderer().Failure(knownState);
         sut
             .Complete(state, code)
             .Should().Be(expected);
