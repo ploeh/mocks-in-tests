@@ -1,4 +1,6 @@
-﻿namespace Tests;
+﻿using CsCheck;
+
+namespace Tests;
 
 public class ControllerTests
 {
@@ -34,16 +36,21 @@ public class ControllerTests
             .Should().Be(expected);
     }
 
-    [Theory]
-    [AutoData]
-    public void Error(string state, string code)
+    [Fact]
+    public void Error()
     {
-        var repository = new RepositoryStub();
-        repository.Add(state, default);
-        var sut = new Controller(repository);
+        (from state in Gen.String
+         from code in Gen.String
+         select (state, code))
+        .Sample((state, code) =>
+        {
+            var repository = new RepositoryStub();
+            repository.Add(state, default);
+            var sut = new Controller(repository);
 
-        sut
-            .Complete(state, code)
-            .Should().Be("500");
+            sut
+                .Complete(state, code)
+                .Should().Be("500");
+        });
     }
 }
