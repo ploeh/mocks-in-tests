@@ -18,7 +18,7 @@ public class Renderer
             return "302 Location: login";
     }
 
-    public string Error((string expectedCode, bool isMobile, Uri redirect) knownState, Exception e)
+    public static string Error((string expectedCode, bool isMobile, Uri redirect) knownState, Exception e)
     {
         if (knownState.isMobile)
             return "{\"error\": \"" + e.Message + "\"}";

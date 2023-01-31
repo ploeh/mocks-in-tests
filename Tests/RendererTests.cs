@@ -35,14 +35,14 @@ public class RendererTests
     [Theory]
     [AutoData]
     public void Error_Regular(string expectedCode, Uri redirect, Exception e)
-        => _renderer
+        => Renderer
             .Error((expectedCode, false, redirect), e)
             .Should().Be("500");
 
     [Theory]
     [AutoData]
     public void Error_Mobile(string expectedCode, Uri redirect, Exception e)
-        => _renderer
+        => Renderer
             .Error((expectedCode, true, redirect), e)
             .Should().Be("{\"error\": \"" + e.Message + "\"}");
 }

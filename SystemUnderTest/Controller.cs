@@ -30,7 +30,7 @@ public class Controller
         }
         catch (Exception e)
         {
-            return _renderer.Error(knownState, e);
+            return Renderer.Error(knownState, e);
         }
     }
 }
