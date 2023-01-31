@@ -8,5 +8,10 @@ public interface IStateValidator
 public class StateValidator : IStateValidator
 {
     public bool Validate(string code, (string expectedCode, bool isMobile, Uri redirect) knownState)
-        => code == knownState.expectedCode;
+    {
+        if (knownState == default)
+            throw new ArgumentNullException(nameof(knownState));
+
+        return code == knownState.expectedCode;
+    }
 }

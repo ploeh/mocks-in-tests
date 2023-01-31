@@ -17,4 +17,10 @@ public class StateValidatorTests
         => _target
             .Validate(code, (expectedCode, isMobile, redirect))
             .Should().BeFalse();
+
+    [Theory, AutoData]
+    public void WhenKnownStateIsDefault_Throws(string code)
+        => _target
+            .Invoking(target => target.Validate(code, default))
+            .Should().Throw<ArgumentNullException>();
 }
