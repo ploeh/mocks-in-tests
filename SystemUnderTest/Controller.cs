@@ -15,7 +15,7 @@ public class Controller
     {
         _repository = repository;
         _stateValidator = new StateValidator();
-        _renderer = renderer;
+        _renderer = new Renderer();
     }
 
     public string Complete(string state, string code)
