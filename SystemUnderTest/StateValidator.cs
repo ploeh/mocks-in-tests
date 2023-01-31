@@ -1,10 +1,5 @@
 ﻿namespace SystemUnderTest;
 
-public interface IStateValidator
-{
-    bool Validate(string code, (string expectedCode, bool isMobile, Uri redirect) knownState);
-}
-
 public class StateValidator
 {
     public bool Validate(string code, (string expectedCode, bool isMobile, Uri redirect) knownState)
