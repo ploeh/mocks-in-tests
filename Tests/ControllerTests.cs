@@ -4,20 +4,28 @@ namespace Tests;
 
 public class ControllerTests
 {
-    [Theory]
-    [AutoData]
-    public void HappyPath(string state, (string, bool, Uri) knownState)
+    [Fact]
+    public void HappyPath()
     {
-        var (expectedCode, _, _) = knownState;
-        var code = expectedCode;
-        var repository = new RepositoryStub();
-        repository.Add(state, knownState);
-        var sut = new Controller(repository);
+        (from state in Gen.String
+         from expectedCode in Gen.String
+         from isMobile in Gen.Bool
+         let urls = new[] { "https://example.com", "https://example.org" }
+         from redirect in Gen.OneOfConst(urls).Select(s => new Uri(s))
+         select (state, (expectedCode, isMobile, redirect)))
+        .Sample((state, knownState) =>
+        {
+            var (expectedCode, _, _) = knownState;
+            var code = expectedCode;
+            var repository = new RepositoryStub();
+            repository.Add(state, knownState);
+            var sut = new Controller(repository);
 
-        var expected = Renderer.Success(knownState);
-        sut
-            .Complete(state, code)
-            .Should().Be(expected);
+            var expected = Renderer.Success(knownState);
+            sut
+                .Complete(state, code)
+                .Should().Be(expected);
+        });
     }
 
     [Fact]
