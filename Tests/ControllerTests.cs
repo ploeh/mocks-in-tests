@@ -31,7 +31,7 @@ public class ControllerTests
         _renderer
             .Setup(renderer => renderer.Success(knownState))
             .Returns(response);
-        var sut = CreateController();
+        var sut = new Controller(_repository, _stateValidator.Object, _renderer.Object);
 
         sut
             .Complete(state, code)
