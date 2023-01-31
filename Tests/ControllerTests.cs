@@ -1,7 +1,4 @@
-﻿using Moq;
-using SystemUnderTest;
-
-namespace Tests;
+﻿namespace Tests;
 
 public class ControllerTests
 {
