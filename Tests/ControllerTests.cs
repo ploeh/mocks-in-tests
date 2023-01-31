@@ -31,8 +31,9 @@ public class ControllerTests
         _renderer
             .Setup(renderer => renderer.Success(knownState))
             .Returns(response);
+        var sut = CreateController();
 
-        _target
+        sut
             .Complete(state, code)
             .Should().Be(response);
     }
