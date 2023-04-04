@@ -1,72 +1,53 @@
-﻿using CsCheck;
+﻿namespace Tests;
 
-namespace Tests;
+using CsCheck;
 
 public class ControllerTests
 {
+    private static readonly Gen<Uri> _genRedirect = Gen.OneOfConst(new Uri("https://example.com"), new Uri("https://example.org"));
+
     [Fact]
     public void HappyPath()
     {
-        (from state in Gen.String
-         from expectedCode in Gen.String
-         from isMobile in Gen.Bool
-         let urls = new[] { "https://example.com", "https://example.org" }
-         from redirect in Gen.OneOfConst(urls).Select(s => new Uri(s))
-         select (state, (expectedCode, isMobile, redirect)))
-        .Sample((state, knownState) =>
+         Gen.Select(Gen.String, Gen.String, Gen.Bool, _genRedirect)
+        .Sample((state, expectedCode, isMobile, redirect) =>
         {
-            var (expectedCode, _, _) = knownState;
             var code = expectedCode;
-            var repository = new RepositoryStub();
-            repository.Add(state, knownState);
+            var knownState = (expectedCode, isMobile, redirect);
+            var repository = new RepositoryStub { { state, knownState } };
             var sut = new Controller(repository);
-
+            var actual = sut.Complete(state, code);
             var expected = Renderer.Success(knownState);
-            sut
-                .Complete(state, code)
-                .Should().Be(expected);
+            return actual == expected;
         });
     }
 
     [Fact]
     public void Failure()
     {
-        (from state in Gen.String
-         from code in Gen.String
-         from expectedCode in Gen.String.Where(s => s != code)
-         from isMobile in Gen.Bool
-         let urls = new[] { "https://example.com", "https://example.org" }
-         from redirect in Gen.OneOfConst(urls).Select(s => new Uri(s))
-         select (state, code, (expectedCode, isMobile, redirect)))
-        .Sample((state, code, knownState) =>
+        Gen.Select(Gen.String, Gen.String, Gen.String, Gen.Bool, _genRedirect)
+        .Where((_, code, expectedCode, _, _) => code != expectedCode)
+        .Sample((state, code, expectedCode, isMobile, redirect) =>
         {
-            var (expectedCode, _, _) = knownState;
-            var repository = new RepositoryStub();
-            repository.Add(state, knownState);
+            var knownState = (expectedCode, isMobile, redirect);
+            var repository = new RepositoryStub { { state, knownState } };
             var sut = new Controller(repository);
-
+            var actual = sut.Complete(state, code);
             var expected = Renderer.Failure(knownState);
-            sut
-                .Complete(state, code)
-                .Should().Be(expected);
+            return actual == expected;
         });
     }
 
     [Fact]
     public void Error()
     {
-        (from state in Gen.String
-         from code in Gen.String
-         select (state, code))
+        Gen.Select(Gen.String, Gen.String)
         .Sample((state, code) =>
         {
-            var repository = new RepositoryStub();
-            repository.Add(state, default);
+            var repository = new RepositoryStub { { state, default } };
             var sut = new Controller(repository);
-
-            sut
-                .Complete(state, code)
-                .Should().Be("500");
+            var actual = sut.Complete(state, code);
+            return actual == "500";
         });
     }
 }
